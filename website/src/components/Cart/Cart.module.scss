@@ -1,0 +1,136 @@
+.cart_global_background {
+	width: 100%;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	position: absolute;
+	z-index: 0;
+	// background-color: aqua;
+}
+*::-webkit-scrollbar {
+	background-color: var(--bg-tertiary-color);
+	border-radius: 20px;
+
+	border: 3px solid var(--border-secondary-color);
+}
+*::-webkit-scrollbar-thumb {
+	background-color: var(--bg-tertiary-color);
+	border-radius: 20px;
+	border: 3px solid var(--border-secondary-color);
+}
+.cart_section {
+	color: var(--primary-color);
+	border: 1px solid var(--border-primary-color);
+
+	margin-top: 10px;
+	top: 50px;
+
+	right: 10px;
+	border-radius: 5px;
+	background-color: var(--bg-secondary-color);
+	height: auto;
+	position: absolute;
+	min-height: 60px;
+	width: 750px;
+	padding: 20px;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 10px;
+	z-index: 1;
+	margin-right: 10px;
+}
+.empty_cart_container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	.empty_cart {
+		height: auto;
+		width: 150px;
+		border-radius: 50%;
+	}
+}
+.main_cart {
+	width: 100%;
+	padding: 10px;
+	gap: 10px;
+}
+.cart_products_main_container {
+	overflow-y: auto;
+	overflow-x: hidden;
+
+	height: 100%;
+	max-height: 350px;
+	padding: 10px;
+}
+.cart_products {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	// height: 500px;
+
+	width: 100%;
+}
+.customed_items {
+	span,
+	u {
+		font-size: 10px;
+	}
+	u {
+		text-decoration: underline;
+	}
+}
+.cart_product {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	justify-content: space-between;
+	border: 1px solid var(--border-primary-color);
+	border-radius: 5px;
+	width: 100%;
+	margin-top: 10px;
+	padding: 5px 10px;
+}
+
+.cart_product:hover {
+	cursor: pointer;
+	-webkit-box-shadow: 6px 5px 10px -5px rgba(255, 255, 255, 0.63);
+
+	box-shadow: 6px 5px 10px -5px rgba(255, 255, 255, 0.63);
+	// background-color: blue;
+	border: 1px rgb(185, 185, 185) solid;
+}
+
+.cart_product > img {
+	width: 50px;
+	height: 50px;
+	border-radius: 5px;
+}
+
+.cart_product > span {
+	width: 200px;
+	white-space: nowrap;
+}
+
+.cart_product > p,
+.cart_product > span > p {
+	white-space: nowrap;
+}
+
+.cart_product > span > p {
+	text-overflow: ellipsis;
+	// border: 1px green solid;
+
+	overflow: hidden;
+
+	// width: 60px;
+}
+.cart_product > button {
+	height: 35px;
+}
+.cart_order_details,
+.cart_delete_payment_buttons > button {
+	margin: 10px;
+}

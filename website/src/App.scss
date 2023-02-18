@@ -1,0 +1,56 @@
+html {
+	background-color: var(--bg-secondary-color);
+}
+body {
+	margin: 0;
+	font-family: "Raleway", sans-serif;
+	color: var(--primary-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "Permanent Marker";
+}
+
+button:hover,
+a:hover,
+select:hover,
+option:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+input,
+select,
+option {
+	color: var(--bg-tertiary-color);
+}
+button {
+	font-family: "Raleway", sans-serif;
+	text-align: center;
+	color: var(--tertiary-color);
+	font-weight: 500;
+	background-color: var(--bg-secondary-color);
+}
+
+button:hover {
+	color: var(--bg-tertiary-color);
+	background-color: var(--bg-primary-color);
+	font-weight: 700;
+	border: 1px solid var(--border-secondary-color);
+}
+button,
+label {
+	background-color: var(--button-primary-color);
+}
+
+a {
+	text-decoration: none;
+}
+li {
+	list-style-type: none;
+}

@@ -1,0 +1,45 @@
+:root {
+	--primary-color: #141414;
+	--secondary-color: #9d9d9d;
+	--tertiary-color: #fff;
+	--error-color: #f0353d;
+	--button-primary-color: #e4002b;
+	--border-primary-color: #9d9d9d;
+	--border-secondary-color: #f0f0f0;
+	--bg-primary-color: #f0f0f0;
+	--bg-secondary-color: #d1d1d1;
+	--bg-tertiary-color: #141414;
+	--bg-quaternary-color: rgb(240, 240, 240, 50%);
+}
+
+.color-primary {
+	color: var(--primary-color);
+}
+.color-secondary {
+	color: var(--secondary-color);
+}
+.button-primary-color {
+	color: var(--button-primary-color);
+}
+.button-secondary-color {
+	color: var(--bg-secondary-color);
+}
+
+.border-primary-color {
+	color: var(--border-primary-color);
+}
+.border-secondary-color {
+	color: var(--border-secondary-color);
+}
+.border-tertiary-color {
+	color: var(--border-secondary-color);
+}
+.bg-primary-color {
+	color: var(--bg-primary-color);
+}
+.bg-secondary-color {
+	color: var(--bg-secondary-color);
+}
+.bg-tertiary-color {
+	color: var(--bg-tertiary-color);
+}

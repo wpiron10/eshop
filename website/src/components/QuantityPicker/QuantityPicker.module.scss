@@ -1,0 +1,17 @@
+.quantity_picker_section {
+	display: flex;
+	align-items: center;
+	// color: var(--primary-color) !important;
+
+	gap: 10px;
+}
+
+.circle_button {
+	border-radius: 50%;
+	height: 30px;
+	width: 30px;
+	border: 1px solid var(--border-primary-color);
+	&:hover {
+		text-decoration: none;
+	}
+}

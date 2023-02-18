@@ -1,0 +1,22 @@
+.section_form {
+	height: 25vh;
+	display: flex;
+	align-items: center;
+	margin: 16px;
+	form {
+		input {
+			margin-right: 16px;
+			margin-bottom: 16px;
+		}
+		button {
+			width: 100px;
+			white-space: nowrap;
+		}
+	}
+	.content_signup {
+		display: flex;
+
+		align-items: center;
+		gap: 10px;
+	}
+}
