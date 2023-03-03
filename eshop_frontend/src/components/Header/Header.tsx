@@ -12,6 +12,7 @@ import "./Header.module.scss";
 import { navContent } from "./navContent";
 import Cart from "../Cart/Cart";
 import { tOrder } from "../../types/types";
+import { useRootContext } from "../../context/Context.Cart";
 
 interface HeaderProps {
 	setToken: Dispatch<SetStateAction<string | null>>;
@@ -21,12 +22,12 @@ interface HeaderProps {
 	SetIsEmpty: Dispatch<SetStateAction<boolean>>;
 	cartToUpdate: boolean;
 	SetCartToUpdate: Dispatch<SetStateAction<boolean>>;
-	cartContent: tOrder | undefined;
-	SetCartContent: Dispatch<SetStateAction<tOrder | undefined>>;
+	// cartContent: tOrder | undefined;
+	// SetCartContent: Dispatch<SetStateAction<tOrder | undefined>>;
 	numberOfArticles: number;
 	SetNumberOfArticles: Dispatch<SetStateAction<number>>;
-	idUser: number | undefined;
-	setIdUser: Dispatch<SetStateAction<number | undefined>>;
+	// idUser: number | undefined;
+	// setIdUser: Dispatch<SetStateAction<number | undefined>>;
 }
 
 const Header: FC<HeaderProps> = ({
@@ -37,12 +38,12 @@ const Header: FC<HeaderProps> = ({
 	isEmpty,
 	cartToUpdate,
 	SetCartToUpdate,
-	cartContent,
-	SetCartContent,
+	// cartContent,
+	// SetCartContent,
 	numberOfArticles,
 	SetNumberOfArticles,
-	idUser,
-	setIdUser,
+	// idUser,
+	// setIdUser,
 }) => {
 	const navigate = useNavigate();
 
@@ -63,7 +64,7 @@ const Header: FC<HeaderProps> = ({
 		};
 		updateCartNumberOfItems();
 	}, [getCart]);
-
+	const { idUser, setIdUser } = useRootContext();
 	return (
 		<header className={styles.header}>
 			<Link to="/">
@@ -105,8 +106,6 @@ const Header: FC<HeaderProps> = ({
 						showLoginModal={showLoginModal}
 						setShowLoginModal={setShowLoginModal}
 						showSignupModal={showSignupModal}
-						setIdUser={setIdUser}
-						idUser={idUser}
 						setShowSignupModal={setShowSignupModal}
 					/>
 					<Signup
@@ -133,8 +132,6 @@ const Header: FC<HeaderProps> = ({
 						SetIsEmpty={SetIsEmpty}
 						cartToUpdate={cartToUpdate}
 						SetCartToUpdate={SetCartToUpdate}
-						cartContent={cartContent}
-						SetCartContent={SetCartContent}
 						numberOfArticles={numberOfArticles}
 						SetNumberOfArticles={SetNumberOfArticles}
 					/>

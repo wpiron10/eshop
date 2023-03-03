@@ -10,6 +10,7 @@ import "./styles/fonts.scss";
 // import of dynamic routing
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import RootProvider from "./context/Context.Cart";
 // import des components
 import Header from "./components/Header/Header";
 import Orders from "./components/Orders/Orders";
@@ -30,10 +31,11 @@ import Product from "../src/pages/Product/Product";
 import Payment from "./pages/Payment/Payment";
 import ProductByTypes from "./pages/ProductByTypes/ProductByTypes";
 
-function App() {
+// const [cartItems, setCartItems] = useState<WindowLocalStorage>();
+
+export function App() {
 	const [isEmpty, SetIsEmpty] = useState<boolean>(true);
 	const [cartToUpdate, SetCartToUpdate] = useState<boolean>(false);
-	const [cartContent, SetCartContent] = useState<tOrder | undefined>();
 	const [numberOfArticles, SetNumberOfArticles] = useState<number>(0);
 	const [stripePromise, setStripePromise] = useState<
 		() => Promise<Stripe | null>
@@ -42,7 +44,6 @@ function App() {
 			"pk_test_51KxuAMBxNTs3SLsGip2j7SfKjYL8gnhlYHPyZ6QjvxvQvqM636bdwCfH7BcvNo5Azg94oxhdmScWqvpa1XN0MdFn00h8VboA2X"
 		)
 	);
-	const [idUser, setIdUser] = useState<number | undefined>();
 
 	// creation d'une fonction de connexion / deconnexion
 
@@ -66,57 +67,59 @@ function App() {
 	};
 
 	return (
-		<Router>
-			<Header
-				manageUserCookie={manageUserCookie}
-				token={token}
-				setToken={setToken}
-				isEmpty={isEmpty}
-				SetIsEmpty={SetIsEmpty}
-				cartToUpdate={cartToUpdate}
-				SetCartToUpdate={SetCartToUpdate}
-				cartContent={cartContent}
-				SetCartContent={SetCartContent}
-				numberOfArticles={numberOfArticles}
-				SetNumberOfArticles={SetNumberOfArticles}
-				idUser={idUser}
-				setIdUser={setIdUser}
-			/>
-			<Routes>
-				<Route path="/" element={<Home />} />
-				{/* Stripe */}
-				<Route
-					path="/payment"
-					element={
-						<Payment
-							Elements={Elements}
-							stripePromise={stripePromise}
-							CheckoutForm={CheckoutForm}
-						/>
-					}
+		<RootProvider>
+			<Router>
+				<Header
+					manageUserCookie={manageUserCookie}
+					token={token}
+					setToken={setToken}
+					isEmpty={isEmpty}
+					SetIsEmpty={SetIsEmpty}
+					cartToUpdate={cartToUpdate}
+					SetCartToUpdate={SetCartToUpdate}
+					// cartContent={cartContent}
+					// SetCartContent={SetCartContent}
+					numberOfArticles={numberOfArticles}
+					SetNumberOfArticles={SetNumberOfArticles}
+					// idUser={idUser}
+					// setIdUser={setIdUser}
 				/>
-				<Route path="/products" element={<Home />} />
-				<Route path="/orders/:idUser" element={<Orders />} />
-				<Route path="/products/:types" element={<ProductByTypes />} />
-				<Route
-					path="/products/:types/:id"
-					element={
-						<Product
-							token={token}
-							isEmpty={isEmpty}
-							SetIsEmpty={SetIsEmpty}
-							cartToUpdate={cartToUpdate}
-							SetCartToUpdate={SetCartToUpdate}
-							cartContent={cartContent}
-							SetCartContent={SetCartContent}
-							idUser={idUser}
-							setIdUser={setIdUser}
-						/>
-					}
-				/>
-				<Route path="*" element={<NotFound />} />
-			</Routes>
-		</Router>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					{/* Stripe */}
+					<Route
+						path="/payment"
+						element={
+							<Payment
+								Elements={Elements}
+								stripePromise={stripePromise}
+								CheckoutForm={CheckoutForm}
+							/>
+						}
+					/>
+					<Route path="/products" element={<Home />} />
+					<Route path="/orders/:idUser" element={<Orders />} />
+					<Route path="/products/:types" element={<ProductByTypes />} />
+					<Route
+						path="/products/:types/:id"
+						element={
+							<Product
+								token={token}
+								isEmpty={isEmpty}
+								SetIsEmpty={SetIsEmpty}
+								cartToUpdate={cartToUpdate}
+								SetCartToUpdate={SetCartToUpdate}
+								// cartContent={cartContent}
+								// SetCartContent={SetCartContent}
+								// idUser={idUser}
+								// setIdUser={setIdUser}
+							/>
+						}
+					/>
+					<Route path="*" element={<NotFound />} />
+				</Routes>
+			</Router>
+		</RootProvider>
 	);
 }
 

@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
+import ReactDOM from "react-dom";
 
 import { tProduct } from "../../types/types";
 import styles from "./Home.module.scss";
@@ -32,6 +33,8 @@ const Home = () => {
 				<span>En cours de chargement...</span>
 			) : (
 				<section>
+					<div></div>
+
 					<main className={styles.product_cards}>
 						{data && <ProductCardList data={data} />}
 					</main>

@@ -1,6 +1,7 @@
 import React, { Dispatch, FC, SetStateAction } from "react";
 import LoginModal from "./LoginModal/LoginModal";
 import "./Login.module.scss";
+import { useRootContext } from "../../context/Context.Cart";
 interface LoginProps {
 	manageUserCookie: (token: string) => void;
 	token: string | null;
@@ -9,8 +10,8 @@ interface LoginProps {
 	setShowSignupModal: Dispatch<SetStateAction<boolean>>;
 	showLoginModal: boolean;
 	setShowLoginModal: Dispatch<SetStateAction<boolean>>;
-	idUser: number | undefined;
-	setIdUser: Dispatch<SetStateAction<number | undefined>>;
+	// idUser: number | undefined;
+	// setIdUser: Dispatch<SetStateAction<number | undefined>>;
 }
 
 const Login: FC<LoginProps> = ({
@@ -19,9 +20,10 @@ const Login: FC<LoginProps> = ({
 	manageUserCookie,
 	showSignupModal,
 	setShowSignupModal,
-	idUser,
-	setIdUser,
+	// idUser,
+	// setIdUser,
 }) => {
+	const { idUser, setIdUser } = useRootContext();
 	return (
 		<>
 			<a

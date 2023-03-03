@@ -4,6 +4,7 @@ import React, {
 	FC,
 	ReactElement,
 	SetStateAction,
+	useContext,
 	useEffect,
 	useState,
 } from "react";
@@ -15,25 +16,26 @@ import { tOrder, tProduct } from "../../types/types";
 
 import styles from "./Product.module.scss";
 import ProductCard from "../../components/Products/ProductCardList/ProductCard/ProductCard";
+import RootProvider, { useRootContext } from "../../context/Context.Cart";
 
 interface ProductProps {
 	isEmpty: Boolean;
 	SetIsEmpty: Dispatch<SetStateAction<boolean>>;
 	cartToUpdate: boolean;
 	SetCartToUpdate: Dispatch<SetStateAction<boolean>>;
-	cartContent: tOrder | undefined;
-	SetCartContent: any;
+	// cartContent: tOrder | undefined;
+	// SetCartContent: any;
 	token: string | null;
-	idUser: number | undefined;
-	setIdUser: Dispatch<SetStateAction<number | undefined>>;
+	// idUser: number | undefined;
+	// setIdUser: Dispatch<SetStateAction<number | undefined>>;
 }
 
 const Product: FC<ProductProps> = ({
 	SetIsEmpty,
 	SetCartToUpdate,
-	idUser,
-	SetCartContent,
-}: ProductProps) => {
+}: // idUser,
+// SetCartContent,
+ProductProps) => {
 	const { id, types } = useParams();
 
 	const navigate = useNavigate();
@@ -41,16 +43,21 @@ const Product: FC<ProductProps> = ({
 	const [isLoading, setIsLoading] = useState(true);
 	const [dataProduct, setDataProduct] = useState<tProduct[]>();
 
-	const [size, setSize] = useState<string | undefined>();
-	const [side, setSide] = useState<tProduct | undefined>();
-	const [drink, setDrink] = useState<string>();
-
-	const [isProductAlreadyInCart, setIsProductAlreadyInCart] =
-		useState<boolean>(false);
 	const [colorSizeActive, setColorSizeActive] = useState(0);
 	const [colorSideActive, setColorSideActive] = useState(0);
 	const [colorDrinkActive, setColorDrinkActive] = useState(0);
+	const [side, setSide] = useState<tProduct | undefined>();
+	const [drink, setDrink] = useState<string>();
+	const {
+		cartContent,
+		handleCart,
 
+		isProductAlreadyInCart,
+
+		size,
+		setSize,
+	} = useRootContext();
+	console.log(useRootContext(), "cart context");
 	useEffect(() => {
 		const getData = async () => {
 			try {
@@ -60,6 +67,7 @@ const Product: FC<ProductProps> = ({
 
 				setDataProduct(response.data);
 				console.log(response.data, "response");
+
 				setIsLoading(false);
 			} catch (error) {
 				console.log(error);
@@ -67,91 +75,6 @@ const Product: FC<ProductProps> = ({
 		};
 		getData();
 	}, [isProductAlreadyInCart]);
-
-	const addToCart = (data: tProduct) => {
-		const getNewCart = localStorage.getItem("Cart");
-		SetCartToUpdate(false);
-		const spreadDataProduct = { ...data };
-		// o 1 A -- si le panier est vide  : on ajoute le panier en créant la commande
-		if (!getNewCart) {
-			const newIdUser = idUser ? idUser : getRandomNumber();
-			const newIdOrder = getRandomNumber();
-			console.log(newIdOrder);
-			const currrentStringifiedDate = JSON.stringify(getCurrentDate());
-			spreadDataProduct.size.splice(
-				0,
-				spreadDataProduct.size.length,
-				size ? size : spreadDataProduct.size[0]
-			);
-			spreadDataProduct?.side?.splice(
-				0,
-				spreadDataProduct.side.length,
-				spreadDataProduct.side[0]
-			);
-			spreadDataProduct.drink?.splice(
-				0,
-				spreadDataProduct.drink.length,
-				spreadDataProduct.drink[0]
-			);
-			const newOrderToCreate = {
-				id_user: newIdUser,
-				id_order: newIdOrder,
-				total_price: data.price,
-				date_order: currrentStringifiedDate,
-				products: [spreadDataProduct],
-			};
-			const stringifiedJSON = JSON.stringify(newOrderToCreate);
-			localStorage.setItem("Cart", stringifiedJSON);
-
-			SetIsEmpty(false);
-			SetCartToUpdate(true);
-		} else {
-			// o 1 B -- sil est rempli, on vérifie sil contient le produit :
-
-			const parsedJSON = JSON.parse(getNewCart);
-
-			const findIndex = parsedJSON.products.findIndex((element: tProduct) => {
-				return (
-					(element._id_product === data._id_product &&
-						element.side[0]._id_product === data.side[0]._id_product &&
-						element.drink[0] === data.drink[0] &&
-						data.type === "menu") ||
-					(element._id_product === data._id_product && data.type === "side")
-				);
-			});
-
-			if (findIndex !== -1) {
-				// o 2 A ---  sil le contient, on augmente sa quantité
-				parsedJSON.products[findIndex]["quantity"]++; // update de la quantité
-				const spreadOfCartContent = { ...parsedJSON };
-				const isPriceStandardOrXL = size === "XL" ? data.price + 2 : data.price;
-				spreadOfCartContent.total_price += isPriceStandardOrXL;
-				const stringifiedJSON = JSON.stringify(spreadOfCartContent);
-				localStorage.setItem("Cart", stringifiedJSON);
-				SetCartContent(spreadOfCartContent);
-				setIsProductAlreadyInCart(false);
-
-				SetCartToUpdate(true);
-			} else {
-				// o 2 B ---  sinon on l'ajoute
-				console.log("produit à ajouter dans le panier");
-
-				const spreadOfParsedJson: any = { ...JSON.parse(getNewCart) };
-				const isPriceStandardOrXL = size === "XL" ? data.price + 2 : data.price;
-				spreadOfParsedJson.products.splice(
-					spreadOfParsedJson.products.length,
-					0,
-					data
-				);
-				const initialPrice = spreadOfParsedJson.total_price;
-				spreadOfParsedJson.total_price = initialPrice + isPriceStandardOrXL;
-				const updatedCart = JSON.stringify(spreadOfParsedJson);
-				localStorage.setItem("Cart", updatedCart);
-				SetCartContent(spreadOfParsedJson);
-				console.log("getNewCart - panier mis à jour ", getNewCart);
-			}
-		}
-	};
 
 	return (
 		<section className={styles.section_Product}>
@@ -270,47 +193,41 @@ const Product: FC<ProductProps> = ({
 										content="Ajouter au panier"
 										onClick={() => {
 											const spreadOfProduct = { ...product };
-
-											if (product.type === "menu") {
-												const updateProductIfEmpty = () => {
-													if (!side) {
-														setSide(spreadOfProduct?.sides[0]);
-														spreadOfProduct.side.splice(
-															0,
-															1,
-															spreadOfProduct.sides[0]
-														);
-													} else {
-														spreadOfProduct.side.splice(0, 1, side);
-													}
-
-													if (!drink) {
-														setDrink(spreadOfProduct.drinks[0]);
-
-														spreadOfProduct.drink.splice(
-															0,
-															1,
-															spreadOfProduct.drinks[0]
-														);
-													} else {
-														spreadOfProduct.drink.splice(0, 1, drink);
-													}
-
-													if (!size) {
-														setSize(spreadOfProduct.sizes[0]);
-														spreadOfProduct.size.splice(
-															0,
-															1,
-															spreadOfProduct.sizes[0]
-														);
-													} else {
-														spreadOfProduct.size.splice(0, 1, size);
-													}
-												};
-
-												updateProductIfEmpty();
+											if (!side) {
+												setSide(spreadOfProduct?.sides[0]);
+												spreadOfProduct.side.splice(
+													0,
+													1,
+													spreadOfProduct.sides[0]
+												);
+											} else {
+												spreadOfProduct.side.splice(0, 1, side);
 											}
-											addToCart(product);
+
+											if (!drink) {
+												setDrink(spreadOfProduct.drinks[0]);
+
+												spreadOfProduct.drink.splice(
+													0,
+													1,
+													spreadOfProduct.drinks[0]
+												);
+											} else {
+												spreadOfProduct.drink.splice(0, 1, drink);
+											}
+
+											if (!size) {
+												setSize(spreadOfProduct.sizes[0]);
+												spreadOfProduct.size.splice(
+													0,
+													1,
+													spreadOfProduct.sizes[0]
+												);
+											} else {
+												spreadOfProduct.size.splice(0, 1, size);
+											}
+											console.log(spreadOfProduct, "spread of product");
+											handleCart(spreadOfProduct);
 										}}
 									/>
 								</div>

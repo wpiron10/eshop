@@ -7,7 +7,7 @@ import { cp } from "fs/promises";
 import CreateEmailForm from "./CreateEmailForm";
 import Button from "../common/Button/Button";
 // import Product from "../../pages/Product/Product/Product";
-import ReactPDF from "@react-pdf/renderer";
+
 import EmailModal from "../Modals/EmailModal/EmailModal";
 import { useNavigate } from "react-router-dom";
 
